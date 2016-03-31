@@ -1,0 +1,25 @@
+<idea-plugin version="2">
+    <id>de.zalando.zester</id>
+    <name>Zester</name>
+    <version>0.0.2</version>
+    <vendor email="sebastian.monte@zalando.de" url="https://tech.zalando.com/">Zalando SE</vendor>
+
+    <description><![CDATA[
+      Plugin for running mutation tests with a click of a button. It uses PIT under the hood.
+    ]]></description>
+
+    <change-notes><![CDATA[
+
+    ]]>
+    </change-notes>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="143.0"/>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <configurationType implementation="org.zalando.zester.configuration.ZesterConfigurationType" />
+        <runConfigurationProducer implementation="org.zalando.zester.configuration.ZesterRunConfigurationProducer" order="first" />
+    </extensions>
+
+
+</idea-plugin>
