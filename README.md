@@ -1,4 +1,4 @@
-https://travis-ci.org/zalando/zester.svg?branch=master
+[![Build Status](https://travis-ci.org/zalando/zester.svg?branch=master)](https://travis-ci.org/zalando/zester)
 
 # Zester
 Zester is an IntelliJ IDEA plugin for running mutation tests with a click of a button.
