@@ -1,7 +1,7 @@
 # Zester
 Zester is an IntelliJ IDEA plugin for running mutation tests with a click of a button.
 It uses [PIT](http://pitest.org/) under the hood. This plugin exists, because there is currently no simple way in
-IntelliJ to run mutation tests for a unit test.
+IntelliJ to run mutation tests.
 
 Zester currently supports Maven and Gradle projects.
 
@@ -20,7 +20,24 @@ Zester expects that each unit test is named with a "Test" suffix, for example, _
 The source file under test is expected to be in the same package structure with the same name (excluding "Test"), for example,
 _com.company.app.Calculator_.
 
-If your project structure is different, you can specify the target class in "Edit configurations...".
+If your file structure is different you can provide a more detailed configuration in "Run Configurations".
+
+## Development
+
+Developing the plugin is easy, just run
+
+```./gradlew runIdea```
+
+This will start IntelliJ IDEA with the plugin installed.
+
+## How to Contribute
+If you want to contribute, please fork and create a pull request.
+
+### Bug Fixes
+If you find a bug, it would be awesome if you created an issue about it. Please include a clear description of the problem so that we can fix it!
+
+## Contact:
+sebastian.monte@zalando.de
 
 ## License
 The MIT License (MIT) Copyright © 2016 Zalando SE, https://tech.zalando.com
