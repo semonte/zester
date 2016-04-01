@@ -34,9 +34,11 @@ public class PitJavaParametersTest {
 
     @Test
     public void thatSourceDirPathIsGenerated() {
+        when(project.getBasePath()).thenReturn("/path/to/project");
+
         String sourceDirPath = pitJavaParameters.getSourceDirPath();
 
-        assertEquals("/path/to/module/src", sourceDirPath);
+        assertEquals("/path/to/project", sourceDirPath);
     }
 
     @Test
