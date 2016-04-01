@@ -1,3 +1,5 @@
+https://travis-ci.org/zalando/zester.svg?branch=master
+
 # Zester
 Zester is an IntelliJ IDEA plugin for running mutation tests with a click of a button.
 It uses [PIT](http://pitest.org/) under the hood. This plugin exists, because there is currently no simple way in
