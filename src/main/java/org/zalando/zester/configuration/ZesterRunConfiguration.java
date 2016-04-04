@@ -22,15 +22,22 @@ import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
-import com.intellij.refactoring.listeners.RefactoringElementAdapter;
+import com.intellij.psi.PsiPackage;
 import com.intellij.refactoring.listeners.RefactoringElementListener;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.zalando.zester.configuration.refactor.PackageRefactoringElementAdapter;
+import org.zalando.zester.configuration.refactor.PackageWithWildcardRefactoringElementAdapter;
+import org.zalando.zester.configuration.refactor.TargetClassRefactoringElementAdapter;
+import org.zalando.zester.configuration.refactor.TargetTestClassRefactoringElementAdapter;
+import org.zalando.zester.configuration.refactor.UpdateField;
 import org.zalando.zester.settings.ZesterSettingsEditor;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ZesterRunConfiguration extends ModuleBasedConfiguration<JavaRunConfigurationModule> implements RunConfiguration, RefactoringListenerProvider {
 
@@ -109,26 +116,51 @@ public class ZesterRunConfiguration extends ModuleBasedConfiguration<JavaRunConf
     @Override
     public RefactoringElementListener getRefactoringElementListener(PsiElement element) {
         if (element instanceof PsiClass) {
-
-            if (!StringUtil.equals(JavaExecutionUtil.getRuntimeQualifiedName((PsiClass) element),
-                    targetTestClassQualifiedName)) {
-                return null;
+            if (StringUtil.equals(JavaExecutionUtil.getRuntimeQualifiedName((PsiClass) element), targetTestClassQualifiedName)) {
+                return new TargetTestClassRefactoringElementAdapter(this);
+            } else if (StringUtil.equals(JavaExecutionUtil.getRuntimeQualifiedName((PsiClass) element), targetClasses)) {
+                return new TargetClassRefactoringElementAdapter(this);
             }
+        } else if (element instanceof PsiPackage) {
+            PsiPackage psiPackage = (PsiPackage) element;
+            String packageWithWildcard = psiPackage.getQualifiedName() + ".*";
 
-            return new RefactoringElementAdapter() {
+            boolean targetTestClassPackageWithWildcardMatches = StringUtil.equals(packageWithWildcard, targetTestClassQualifiedName);
+            boolean targetClassPackageWithWildcardMatches = StringUtil.equals(packageWithWildcard, targetClasses);
 
-                @Override
-                protected void elementRenamedOrMoved(@NotNull PsiElement newElement) {
-                    targetTestClassQualifiedName = JavaExecutionUtil.getRuntimeQualifiedName((PsiClass) newElement);
-                    setName(suggestedName());
+            if (targetTestClassPackageWithWildcardMatches || targetClassPackageWithWildcardMatches) {
+                Set<UpdateField> fields = new HashSet<>();
+                if (targetTestClassPackageWithWildcardMatches) {
+                    fields.add(UpdateField.TARGET_TEST_CLASS);
+                }
+                if (targetClassPackageWithWildcardMatches) {
+                    fields.add(UpdateField.TARGET_CLASS);
                 }
 
-                @Override
-                public void undoElementMovedOrRenamed(@NotNull PsiElement newElement, @NotNull String oldQualifiedName) {
-                    targetTestClassQualifiedName = oldQualifiedName;
-                    setName(suggestedName());
+                return new PackageWithWildcardRefactoringElementAdapter(this, fields);
+
+            } else {
+                String targetTestClassPackage = targetTestClassQualifiedName.substring(0, targetTestClassQualifiedName.lastIndexOf("."));
+                String targetTestClassName = targetTestClassQualifiedName.substring(targetTestClassQualifiedName.lastIndexOf(".") + 1);
+
+                String targetClassPackage = targetClasses.substring(0, targetClasses.lastIndexOf("."));
+                String targetClassClassName = targetClasses.substring(targetClasses.lastIndexOf(".") + 1);
+
+                boolean targetTestClassPackageMatches = StringUtil.equals(psiPackage.getQualifiedName(), targetTestClassPackage);
+                boolean targetClassPackageMatches = StringUtil.equals(psiPackage.getQualifiedName(), targetClassPackage);
+
+                if (targetTestClassPackageMatches || targetClassPackageMatches) {
+                    Set<UpdateField> fields = new HashSet<>();
+                    if (targetTestClassPackageMatches) {
+                        fields.add(UpdateField.TARGET_TEST_CLASS);
+                    }
+                    if (targetClassPackageMatches) {
+                        fields.add(UpdateField.TARGET_CLASS);
+                    }
+
+                    return new PackageRefactoringElementAdapter(this, fields, targetTestClassName, targetClassClassName);
                 }
-            };
+            }
         }
         return null;
     }
