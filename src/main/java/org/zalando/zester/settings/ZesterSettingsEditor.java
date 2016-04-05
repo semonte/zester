@@ -9,6 +9,7 @@ import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.psi.JavaPsiFacade;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.ui.RawCommandLineEditor;
 import org.jetbrains.annotations.NotNull;
 import org.zalando.zester.configuration.ZesterRunConfiguration;
 
@@ -19,22 +20,26 @@ public class ZesterSettingsEditor extends SettingsEditor<ZesterRunConfiguration>
     private TextFieldWithBrowseButton targetTestClassQualifiedName;
     private TextFieldWithBrowseButton targetClasses;
     private JPanel mainPanel;
+    private RawCommandLineEditor vmOptions;
 
     public ZesterSettingsEditor(Project project) {
         setupTestClassBrowser(project);
         setupTargetClassesBrowser(project);
+        vmOptions.setDialogCaption("VM Options");
     }
 
     @Override
     protected void resetEditorFrom(ZesterRunConfiguration zesterRunConfiguration) {
         targetTestClassQualifiedName.setText(zesterRunConfiguration.getTargetTestClassQualifiedName());
         targetClasses.setText(zesterRunConfiguration.getTargetClasses());
+        vmOptions.setText(zesterRunConfiguration.getVmOptions());
     }
 
     @Override
     protected void applyEditorTo(ZesterRunConfiguration zesterRunConfiguration) throws ConfigurationException {
         zesterRunConfiguration.setTargetTestClassQualifiedName(getTargetTestClassQualifiedNameAsText());
         zesterRunConfiguration.setTargetClasses(getTargetClassesAsText());
+        zesterRunConfiguration.setVmOptions(getVmOptionsAsText());
     }
 
     @NotNull
@@ -49,6 +54,10 @@ public class ZesterSettingsEditor extends SettingsEditor<ZesterRunConfiguration>
 
     private String getTargetClassesAsText() {
         return targetClasses.getText();
+    }
+
+    private String getVmOptionsAsText() {
+        return vmOptions.getText();
     }
 
     private void setupTestClassBrowser(Project project) {

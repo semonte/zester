@@ -43,9 +43,11 @@ public class ZesterRunConfiguration extends ModuleBasedConfiguration<JavaRunConf
 
     private static final String TEST_CLASS_PATH = "TEST_CLASS_PATH";
     private static final String TARGET_CLASS_PATH = "TARGET_CLASS_PATH";
+    private static final String VM_OPTIONS = "VM_OPTIONS";
 
     private String targetTestClassQualifiedName;
     private String targetClasses;
+    private String vmOptions;
 
     public ZesterRunConfiguration(String name,
                                   @NotNull JavaRunConfigurationModule configurationModule,
@@ -67,36 +69,22 @@ public class ZesterRunConfiguration extends ModuleBasedConfiguration<JavaRunConf
     @Override
     public RunProfileState getState(@NotNull Executor executor,
                                     @NotNull ExecutionEnvironment environment) throws ExecutionException {
-        return new ZesterCommandLineState(environment, getTargetTestClassQualifiedName(), targetClasses);
+        return new ZesterCommandLineState(environment,
+                getTargetTestClassQualifiedName(), getTargetClasses(), getVmOptions());
     }
-
-    public void setTargetTestClassQualifiedName(String targetTestClassQualifiedName) {
-        this.targetTestClassQualifiedName = targetTestClassQualifiedName;
-    }
-
-    public String getTargetTestClassQualifiedName() {
-        return targetTestClassQualifiedName;
-    }
-
-    public void setTargetClasses(String targetClasses) {
-        this.targetClasses = targetClasses;
-    }
-
-    public String getTargetClasses() {
-        return targetClasses;
-    }
-
 
     @Override
     public void writeExternal(final Element element) throws WriteExternalException {
         JDOMExternalizer.write(element, TEST_CLASS_PATH, targetTestClassQualifiedName);
         JDOMExternalizer.write(element, TARGET_CLASS_PATH, targetClasses);
+        JDOMExternalizer.write(element, VM_OPTIONS, vmOptions);
     }
 
     @Override
     public void readExternal(final Element element) throws InvalidDataException {
         targetTestClassQualifiedName = JDOMExternalizer.readString(element, TEST_CLASS_PATH);
         targetClasses = JDOMExternalizer.readString(element, TARGET_CLASS_PATH);
+        vmOptions = JDOMExternalizer.readString(element, VM_OPTIONS);
     }
 
     @Override
@@ -164,4 +152,29 @@ public class ZesterRunConfiguration extends ModuleBasedConfiguration<JavaRunConf
         }
         return null;
     }
+
+    public void setTargetTestClassQualifiedName(String targetTestClassQualifiedName) {
+        this.targetTestClassQualifiedName = targetTestClassQualifiedName;
+    }
+
+    public String getTargetTestClassQualifiedName() {
+        return targetTestClassQualifiedName;
+    }
+
+    public void setTargetClasses(String targetClasses) {
+        this.targetClasses = targetClasses;
+    }
+
+    public String getTargetClasses() {
+        return targetClasses;
+    }
+
+    public String getVmOptions() {
+        return vmOptions;
+    }
+
+    public void setVmOptions(String vmOptions) {
+        this.vmOptions = vmOptions;
+    }
+
 }
