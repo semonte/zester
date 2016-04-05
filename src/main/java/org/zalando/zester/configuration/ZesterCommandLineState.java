@@ -23,14 +23,17 @@ public class ZesterCommandLineState extends JavaCommandLineState {
 
     private final String testClassQualifiedName;
     private final String targetClasses;
+    private final String vmOptions;
     private ConsoleView consoleView;
 
     protected ZesterCommandLineState(@NotNull ExecutionEnvironment environment,
                                      String testClassQualifiedName,
-                                     String targetClasses) {
+                                     String targetClasses,
+                                     String vmOptions) {
         super(environment);
         this.testClassQualifiedName = testClassQualifiedName;
         this.targetClasses = targetClasses;
+        this.vmOptions = vmOptions;
     }
 
     @Override
@@ -44,21 +47,24 @@ public class ZesterCommandLineState extends JavaCommandLineState {
         javaParameters.getClassPath().add(pitJavaParameters.getPitJarPath());
         javaParameters.getClassPath().add(pitJavaParameters.getPitCommandLineJarPath());
 
-        ParametersList programParametersList = javaParameters.getProgramParametersList();
+        ParametersList programParameters = javaParameters.getProgramParametersList();
 
-        programParametersList.add("--reportDir");
-        programParametersList.add(pitJavaParameters.getReportDirPath());
+        programParameters.add("--reportDir");
+        programParameters.add(pitJavaParameters.getReportDirPath());
 
-        programParametersList.add("--sourceDirs");
-        programParametersList.add(pitJavaParameters.getSourceDirPath());
+        programParameters.add("--sourceDirs");
+        programParameters.add(pitJavaParameters.getSourceDirPath());
 
-        programParametersList.add("--targetClasses");
-        programParametersList.add(pitJavaParameters.getTargetClasses());
+        programParameters.add("--targetClasses");
+        programParameters.add(pitJavaParameters.getTargetClasses());
 
-        programParametersList.add("--targetTests");
-        programParametersList.add(pitJavaParameters.getTargetTests());
+        programParameters.add("--targetTests");
+        programParameters.add(pitJavaParameters.getTargetTests());
 
         JavaParametersUtil.configureProject(project, javaParameters, JavaParameters.JDK_AND_CLASSES_AND_TESTS, null);
+
+        ParametersList vmParameters = javaParameters.getVMParametersList();
+        vmParameters.addParametersString(vmOptions);
 
         return javaParameters;
     }
