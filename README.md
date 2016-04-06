@@ -9,7 +9,7 @@ Zester currently supports Maven and Gradle projects.
 
 ## Installation
 
-You can find Zester at [IntelliJ IDEA Plugin Repository](https://plugins.jetbrains.com/plugin/8281). Or you can [Grab yourself](https://github.com/zalando/zester/releases) the plugin and install in IntelliJ (Preferences -> Plugins -> Install plugin from disk).
+You can find Zester at [IntelliJ IDEA Plugin Repository](https://plugins.jetbrains.com/plugin/8281).
 
 ## Usage
 Once the plugin is installed, right click a test file in Project tool window and select Zester configuration.
