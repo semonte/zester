@@ -44,10 +44,12 @@ public class ZesterRunConfiguration extends ModuleBasedConfiguration<JavaRunConf
     private static final String TEST_CLASS_PATH = "TEST_CLASS_PATH";
     private static final String TARGET_CLASS_PATH = "TARGET_CLASS_PATH";
     private static final String VM_OPTIONS = "VM_OPTIONS";
+    private static final String PROGRAM_ARGUMENTS = "PROGRAM_ARGUMENTS";
 
     private String targetTestClassQualifiedName;
     private String targetClasses;
     private String vmOptions;
+    private String programArguments;
 
     public ZesterRunConfiguration(String name,
                                   @NotNull JavaRunConfigurationModule configurationModule,
@@ -70,7 +72,10 @@ public class ZesterRunConfiguration extends ModuleBasedConfiguration<JavaRunConf
     public RunProfileState getState(@NotNull Executor executor,
                                     @NotNull ExecutionEnvironment environment) throws ExecutionException {
         return new ZesterCommandLineState(environment,
-                getTargetTestClassQualifiedName(), getTargetClasses(), getVmOptions());
+                getTargetTestClassQualifiedName(),
+                getTargetClasses(),
+                getVmOptions(),
+                getProgramArguments());
     }
 
     @Override
@@ -78,6 +83,7 @@ public class ZesterRunConfiguration extends ModuleBasedConfiguration<JavaRunConf
         JDOMExternalizer.write(element, TEST_CLASS_PATH, targetTestClassQualifiedName);
         JDOMExternalizer.write(element, TARGET_CLASS_PATH, targetClasses);
         JDOMExternalizer.write(element, VM_OPTIONS, vmOptions);
+        JDOMExternalizer.write(element, PROGRAM_ARGUMENTS, programArguments);
     }
 
     @Override
@@ -85,6 +91,7 @@ public class ZesterRunConfiguration extends ModuleBasedConfiguration<JavaRunConf
         targetTestClassQualifiedName = JDOMExternalizer.readString(element, TEST_CLASS_PATH);
         targetClasses = JDOMExternalizer.readString(element, TARGET_CLASS_PATH);
         vmOptions = JDOMExternalizer.readString(element, VM_OPTIONS);
+        programArguments = JDOMExternalizer.readString(element, PROGRAM_ARGUMENTS);
     }
 
     @Override
@@ -177,4 +184,11 @@ public class ZesterRunConfiguration extends ModuleBasedConfiguration<JavaRunConf
         this.vmOptions = vmOptions;
     }
 
+    public String getProgramArguments() {
+        return programArguments;
+    }
+
+    public String setProgramArguments(String programArguments) {
+        return this.programArguments = programArguments;
+    }
 }

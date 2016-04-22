@@ -24,16 +24,19 @@ public class ZesterCommandLineState extends JavaCommandLineState {
     private final String testClassQualifiedName;
     private final String targetClasses;
     private final String vmOptions;
+    private final String programArguments;
     private ConsoleView consoleView;
 
     protected ZesterCommandLineState(@NotNull ExecutionEnvironment environment,
                                      String testClassQualifiedName,
                                      String targetClasses,
-                                     String vmOptions) {
+                                     String vmOptions,
+                                     String programArguments) {
         super(environment);
         this.testClassQualifiedName = testClassQualifiedName;
         this.targetClasses = targetClasses;
         this.vmOptions = vmOptions;
+        this.programArguments = programArguments;
     }
 
     @Override
@@ -61,10 +64,12 @@ public class ZesterCommandLineState extends JavaCommandLineState {
         programParameters.add("--targetTests");
         programParameters.add(pitJavaParameters.getTargetTests());
 
-        JavaParametersUtil.configureProject(project, javaParameters, JavaParameters.JDK_AND_CLASSES_AND_TESTS, null);
+        programParameters.addParametersString(programArguments);
 
         ParametersList vmParameters = javaParameters.getVMParametersList();
         vmParameters.addParametersString(vmOptions);
+
+        JavaParametersUtil.configureProject(project, javaParameters, JavaParameters.JDK_AND_CLASSES_AND_TESTS, null);
 
         return javaParameters;
     }
