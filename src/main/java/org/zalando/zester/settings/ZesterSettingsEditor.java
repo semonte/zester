@@ -21,11 +21,13 @@ public class ZesterSettingsEditor extends SettingsEditor<ZesterRunConfiguration>
     private TextFieldWithBrowseButton targetClasses;
     private JPanel mainPanel;
     private RawCommandLineEditor vmOptions;
+    private RawCommandLineEditor programArguments;
 
     public ZesterSettingsEditor(Project project) {
         setupTestClassBrowser(project);
         setupTargetClassesBrowser(project);
         vmOptions.setDialogCaption("VM Options");
+        programArguments.setDialogCaption("Program arguments");
     }
 
     @Override
@@ -33,6 +35,7 @@ public class ZesterSettingsEditor extends SettingsEditor<ZesterRunConfiguration>
         targetTestClassQualifiedName.setText(zesterRunConfiguration.getTargetTestClassQualifiedName());
         targetClasses.setText(zesterRunConfiguration.getTargetClasses());
         vmOptions.setText(zesterRunConfiguration.getVmOptions());
+        programArguments.setText(zesterRunConfiguration.getProgramArguments());
     }
 
     @Override
@@ -40,6 +43,7 @@ public class ZesterSettingsEditor extends SettingsEditor<ZesterRunConfiguration>
         zesterRunConfiguration.setTargetTestClassQualifiedName(getTargetTestClassQualifiedNameAsText());
         zesterRunConfiguration.setTargetClasses(getTargetClassesAsText());
         zesterRunConfiguration.setVmOptions(getVmOptionsAsText());
+        zesterRunConfiguration.setProgramArguments(getProgramArgumentsAsText());
     }
 
     @NotNull
@@ -58,6 +62,10 @@ public class ZesterSettingsEditor extends SettingsEditor<ZesterRunConfiguration>
 
     private String getVmOptionsAsText() {
         return vmOptions.getText();
+    }
+
+    private String getProgramArgumentsAsText() {
+        return programArguments.getText();
     }
 
     private void setupTestClassBrowser(Project project) {
