@@ -14,9 +14,9 @@ You can find Zester at [IntelliJ IDEA Plugin Repository](https://plugins.jetbrai
 ## Usage
 Once the plugin is installed, right click a test file in Project tool window and select Zester configuration.
 
-<a href="https://github.com/zalando/zester/blob/master/docs/run_zester.png?raw=true" target="_blank"><img src="https://github.com/zalando/zester/raw/master/docs/run_zester.png?raw=true" alt="alt text" title="Zester Run" style="max-width: 350px;"></a>
-
 **Note:** If the test class is already associated with a run configuration (for example, JUnit runner), you need to add Zester from "Edit configurations...".
+
+<a href="https://github.com/zalando/zester/blob/master/docs/run_zester.png?raw=true" target="_blank"><img src="https://github.com/zalando/zester/raw/master/docs/run_zester.png?raw=true" alt="alt text" title="Zester Run" style="max-width: 350px;"></a>
 
 ### Convention over configuration
 Zester expects that each unit test is named with a "Test" suffix, for example, _com.company.app.CalculatorTest_.
