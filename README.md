@@ -1,13 +1,13 @@
 [![Build Status](https://travis-ci.org/zalando/zester.svg?branch=master)](https://travis-ci.org/zalando/zester)
 
 # Zester
-Zester is an IntelliJ IDEA plugin for running mutation tests with a click of a button. It uses [PIT](http://pitest.org/) under the hood. This plugin exists to provide a simple way to run mutation tests in IntelliJ; we don't know of another way that's as simple/simpler.
+Zester is an IntelliJ IDEA plugin for running mutation tests with a click of a button. It uses [PIT](http://pitest.org/) under the hood. This plugin exists to provide a simple way to run mutation tests in IntelliJ; we don't know of another way that's as simple or simpler.
 
 Zester currently supports Maven and Gradle projects.
 
 ### Installation
 
-You can find Zester at [IntelliJ IDEA Plugin Repository](https://plugins.jetbrains.com/plugin/8281).
+You can find Zester at [IntelliJ's IDEA Plugin Repository](https://plugins.jetbrains.com/plugin/8281).
 
 ### Usage
 After installing Zester, right click a test file in the Project tool window and select the Zester configuration.
