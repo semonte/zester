@@ -24,9 +24,11 @@ If your file structure is different, you can provide a more detailed configurati
 
 ### Development
 
-Developing with Zester is easy. Just run:
+Developing Zester is easy. Just run:
 
-```./gradlew runIdea```
+```
+./gradlew runIdea
+```
 
 This will start IntelliJ IDEA with the plugin installed.
 
@@ -38,6 +40,21 @@ If you find a bug, please create an issue with a clear description of the proble
 
 ### Contact:
 sebastian.monte@zalando.de
+
+### FAQ
+
+> I am not able to exclude multiple classes/packages.
+
+Make sure you don't have any spaces between the excluded classes or packages. The following would only exlude `package1`.
+
+```
+--excludedClasses package1., package2.
+```
+
+Correct format:
+```
+--excludedClasses package1.,package2.
+```
 
 ### License
 The MIT License (MIT) Copyright © 2016 Zalando SE, https://tech.zalando.com
